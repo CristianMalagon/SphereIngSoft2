@@ -1,7 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const Reporte = () => {
+
+  const [ventas, setVentas] = useState([]);
+  const [productos, setProductos] = useState([]);
+  const [clientes, setClientes] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5555/ventas').then((response) => {
+      setVentas(response.data);
+    }).catch((error) => {
+      console.log(error);
+    })
+  }, []);
+
+  useEffect(() => {
+    axios.get('http://localhost:5555/productos').then((response) => {
+      setProductos(response.data);
+    }).catch((error) => {
+      console.log(error);
+    })
+  }, []);
+
+  useEffect(() => {
+    axios.get('http://localhost:5555/clientes').then((response) => {
+      setClientes(response.data);
+    }).catch((error) => {
+      console.log(error);
+    })
+  }, []);
+
+  const numVentas = ventas.length;
+  const ingresos = ventas.reduce((a,v) =>  a = a + v.precio , 0 );
+  var vendidos = 0;
+  var inventario = 0;
+
+  ventas.forEach(venta => {
+    venta.articulos.forEach(articulo => {
+      vendidos = vendidos + articulo.cantidad;
+    });
+  });
+
+  productos.forEach(producto => {
+    inventario = inventario + producto.stock;
+  });
+
   return (
     <div>
       {/* Navbar */}
@@ -78,27 +123,22 @@ const Reporte = () => {
             <h1>Reporte del mes actual</h1>
             <div style={{ background: "rgb(131, 28, 28)", height: "4px", margin: "10px" }} />
             <br />
-            <p style={{fontWeight:"bold"}}>Resumen de Ventas Totales:​</p>
+            <p style={{fontWeight:"bold"}}>Resumen de Ventas:​</p>
 
-            <p>- Ingresos totales de ventas: $75,000​</p>
+            <p>- Ingresos totales de ventas: ${ingresos}​</p>
 
-            <p>- Cantidad total de productos vendidos: 1,500​</p>
+            <p>- Ventas realizadas: {numVentas} ​</p>
 
-            <p>Desglose de Ventas por Producto o Servicio:​</p>
+            <p>- Promedio de ingresos por venta: ${ingresos/numVentas}​</p>
 
-            <p style={{fontWeight:"bold"}}>Clientes:​</p>
+            <p>- Productos vendidos: {vendidos}​</p>
 
-            <p>- Nuevos Clientes Adquiridos: 50​</p>
+            <p style={{fontWeight:"bold"}}>Clientes e inventario:​</p>
 
-            <p>- Clientes Recurrentes: 200​</p>
+            <p>- Productos en el inventario: {inventario}</p>
 
-            <p>- Valor Promedio de Compra por Cliente: $350​</p>
-
-            <p style={{fontWeight:"bold"}}>Margen de Beneficio:​</p>
-
-            <p>- Costos de Productos Vendidos: $45,000​</p>
-
-            <p>- Margen de Beneficio Bruto: $30,000​</p>
+            <p>- Clientes registrados: {clientes.length}</p>
+            
           </div>
         </div>
       </div>
