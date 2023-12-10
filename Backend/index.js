@@ -1,9 +1,10 @@
 import express, { request, response } from "express";
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
-import rutasCliente from "./rutas/rutasCliente.js"
-import rutasUsuario from "./rutas/rutasUsuario.js"
-import rutasProducto from "./rutas/rutasProducto.js"
+import rutasCliente from "./rutas/rutasCliente.js";
+import rutasUsuario from "./rutas/rutasUsuario.js";
+import rutasProducto from "./rutas/rutasProducto.js";
+import rutasVenta from "./rutas/rutasVenta.js";
 import cors from "cors";
 
 
@@ -20,6 +21,7 @@ app.get("/", (request, response)=>{
 app.use('/clientes', rutasCliente)
 app.use('/usuarios', rutasUsuario)
 app.use('/productos', rutasProducto)
+app.use('/ventas', rutasVenta)
 
 mongoose.connect(mongoDBURL,{dbName: 'DBIngSoft'}).then(()=>{
   console.log('App connected to database');
