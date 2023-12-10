@@ -34,7 +34,7 @@ router.get('/correo/:email', async (request, response) => {
         const { email } = request.params;
         const usuario = await Usuario.findOne({correo: email});
 
-        if (usuario.length == 0) {
+        if (usuario == null) {
             return response.status(404).json({ message: "No se encontro el usuario" });
         }
         return response.status(200).json(usuario)

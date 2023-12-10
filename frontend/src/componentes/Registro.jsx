@@ -63,7 +63,7 @@ const Registro = () => {
                   </div>
                 </div>
                 <div className="input-group mb-3">
-                  <input type="email" className="form-control" placeholder="correo" value={correo} onChange={(e)=>setCorreo(e.target.value)}/>
+                  <input type="email" className="form-control" placeholder="correo" value={correo} onChange={(e)=>setCorreo(e.target.value.toLowerCase())}/>
                   <div className="input-group-append">
                     <div className="input-group-text">
                       <span className="fas fa-envelope" />
