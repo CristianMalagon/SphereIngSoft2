@@ -1,7 +1,44 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const AddVenta = () => {
+
+  const [productos, setProductos] = useState([]);
+  const [cartItems, setCartItems] = useState([]);
+
+  const itemsPrecio = cartItems.reduce((a, c) => a + c.precio * c.qty, 0);
+  const taxPrecio = itemsPrecio * 0.14;
+  const totalPrecio = itemsPrecio + taxPrecio;
+
+  const onAdd = (prodcuto) => {
+    const exist = cartItems.find(x => x._id === prodcuto._id);
+    if (exist) {
+      setCartItems(cartItems.map(x => x._id === prodcuto._id ? { ...exist, qty: exist.qty + 1 } : x));
+    } else {
+      setCartItems([...cartItems, { ...prodcuto, qty: 1 }])
+    }
+  };
+
+  const onRemove = (producto) => {
+    const exist = cartItems.find((x) => x.id === producto.id);
+    if (exist.qty === 1) {
+      setCartItems(cartItems.filter((x) => x._id !== producto._id));
+    } else {
+      setCartItems(cartItems.map(x => x._id === producto._id ? { ...exist, qty: exist.qty - 1 } : x));
+    }
+  };
+
+  useEffect(() => {
+    axios.get('http://localhost:5555/productos').then((response) => {
+      setProductos(response.data);
+    }).catch((error) => {
+      console.log(error);
+    })
+  }, []);
+
+
+
   return (
     <div>
       {/* Navbar */}
@@ -18,7 +55,7 @@ const AddVenta = () => {
       <aside className="main-sidebar sidebar-dark-primary elevation-4">
         {/* Brand Logo */}
         <a className="brand-link">
-          <img src="img/Imagen1.jpg" className="brand-image img-circle elevation-3" style={{ opacity: '.8' }} />
+          <img src="%PUBLIC_URL%/img/Imagen1.jpg" className="brand-image img-circle elevation-3" style={{ opacity: '.8' }} />
           <span className="brand-text font-weight-light">SPHERE</span>
         </a>
         {/* Sidebar Menu */}
@@ -73,37 +110,53 @@ const AddVenta = () => {
         </div>
         {/* /.content-header */}
         <div className="content.ac">
-          <div className="register-ven">
-            <div style={{ textAlign: 'center' }}>
-              <div>
-                <h2>Selecciona tus productos:</h2>
-                {/* Lista de productos disponibles */}
-                <select id="productosDisponibles" multiple>
-                  <option value="camisa">Camisa</option>
-                  <option value="jean">Jean</option>
-                  <option value="tennis">Tennis</option>
-                  {/* Agrega más productos según sea necesario */}
-                </select>
-              </div>
-              <div>
-                {/* Botón para agregar productos seleccionados */}
-                <button onclick="agregarProducto()">Agregar Producto</button>
-              </div>
-              <div>
-                {/* Lista de productos seleccionados */}
-                <h3>Productos Seleccionados:</h3>
-                <ul id="productosSeleccionados" />
-              </div>
-              <div id="total" style={{color:"white"}}>
-                {/* Sección para mostrar el total de precios */}
-                <button onclick="calcularTotal()">Calcular Total</button>
-                <p>Total: $<span id="totalPrecio">0.00</span></p>
-              </div>
-              <div id="registrarVenta">
-                {/* Botón para registrar la venta */}
-                <button onclick="registrarVenta()">Registrar Venta</button>
-              </div>
+          <div className="row" style={{ justifyContent: "space-around", marginTop: "20px" , paddingBottom:"10%"}}>
+            <div className='col-6' style={{ background: "white", padding:"1em"}}>
+              <h3 style={{ color: "black"}}>Articulos</h3>
+              {productos.map((producto) => (
+                <li style={{ alignItems: "center" }}>{producto.nombre} || Precio: ${producto.precio}
+                  <button onClick={()=> onAdd(producto)}>Añadir al carro</button>
+                </li>
+              ))}
             </div>
+            <div className='col-5' style={{ background: "white", padding:"1em"}}>
+            <h3 style={{ color: "black", marginTop: "0.2em" }}>Carrito</h3>
+              {cartItems.length === 0 && <div>No se han seleccionado productos</div>}
+              {cartItems.map((item) => (
+                <div key={item._id} className='row' >
+                  <div className='col-6'>{item.nombre}</div>
+                  <div className='col-3'>
+                    <button className='botonMas' onClick={() => onAdd(item)}>+</button>
+                    <button className='botonMenos' onClick={() => onRemove(item)}>-</button>
+                  </div>
+                  <div className='col-3 text-right'>
+                    {item.qty} x ${item.precio.toFixed(2)}
+                  </div>
+                </div>
+              ))}
+              {cartItems.length !== 0 && (
+                <>
+                  <hr/>
+                  <div className='row'>
+                    <div className='col-6'>Precio:</div>
+                    <div className='col-6 text-right'>${itemsPrecio.toFixed(2)}</div>
+                  </div>
+                  <div className='row'>
+                    <div className='col-6'>Impuestos:</div>
+                    <div className='col-6 text-right'>${taxPrecio.toFixed(2)}</div>
+                  </div>
+                  <div className='row'>
+                    <div className='col-6'><strong>Total a pagar:</strong></div>
+                    <div className='col-6 text-right'><strong>${totalPrecio.toFixed(2)}</strong></div>
+                  </div>
+                  <hr/>
+                  <div className='row' style={{justifyContent:"center"}}>
+                    <button style={{width:"70%"}} onClick={()=>{alert("YAY")}}>Confirmar</button>                
+                  </div>
+                </>
+              )}
+            </div>
+
           </div>
         </div>
       </div>

@@ -109,7 +109,7 @@ const Productos = () => {
               ))}
             </tbody>
           </table>
-          <div class="row align-items-center mb-4" style={{marginLeft:"2px", paddingBottom:"100%"}}>
+          <div class="row align-items-center mb-4" style={{marginLeft:"2px", paddingBottom:"10%"}}>
             <Link to="/productos/registrar" className="btn btn-primary">Agregar producto</Link>
           </div>
         </div>

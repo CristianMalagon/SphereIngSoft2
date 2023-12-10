@@ -73,7 +73,7 @@ const Reporte = () => {
         </div>
         {/* /.content-header */}
         {/* Main content */}
-        <div className="content" style={{ paddingBottom: "100%" }}>
+        <div className="content" style={{ paddingBottom: "20px" }}>
           <div style={{ background: "white", margin: "20px", padding: "20px" }}>
             <h1>Reporte del mes actual</h1>
             <div style={{ background: "rgb(131, 28, 28)", height: "4px", margin: "10px" }} />

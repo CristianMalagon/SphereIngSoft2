@@ -78,6 +78,26 @@ button:hover {
     background-color: #45a049;
 }
 
+.botonMas {
+    font-weight: bold;
+    border-radius: 2em;
+    padding: 0em;
+    width: 2em;
+    height: 2em;
+    vertical-align: top;
+    background-color: #4caf50;
+}
+
+.botonMenos {
+    font-weight: bold;
+    border-radius: 2em;
+    padding: 0em;
+    width: 2em;
+    height: 2em;
+    vertical-align: top;
+    background-color: #ff4f40;
+}
+
 ul {
     list-style-type: none;
     padding: 0;
