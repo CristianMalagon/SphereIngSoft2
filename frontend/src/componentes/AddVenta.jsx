@@ -1,31 +1,34 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const AddVenta = () => {
 
   const [productos, setProductos] = useState([]);
   const [cartItems, setCartItems] = useState([]);
 
-  const itemsPrecio = cartItems.reduce((a, c) => a + c.precio * c.qty, 0);
+  const navigate = useNavigate();
+
+  const itemsPrecio = cartItems.reduce((a, c) => a + c.precio * c.cantidad, 0);
   const taxPrecio = itemsPrecio * 0.14;
   const totalPrecio = itemsPrecio + taxPrecio;
 
   const onAdd = (prodcuto) => {
     const exist = cartItems.find(x => x._id === prodcuto._id);
     if (exist) {
-      setCartItems(cartItems.map(x => x._id === prodcuto._id ? { ...exist, qty: exist.qty + 1 } : x));
+      setCartItems(cartItems.map(x => x._id === prodcuto._id ? { ...exist, cantidad: exist.cantidad + 1 } : x));
     } else {
-      setCartItems([...cartItems, { ...prodcuto, qty: 1 }])
+      setCartItems([...cartItems, { ...prodcuto, cantidad: 1 }])
     }
   };
 
   const onRemove = (producto) => {
     const exist = cartItems.find((x) => x.id === producto.id);
-    if (exist.qty === 1) {
+    if (exist.cantidad === 1) {
       setCartItems(cartItems.filter((x) => x._id !== producto._id));
     } else {
-      setCartItems(cartItems.map(x => x._id === producto._id ? { ...exist, qty: exist.qty - 1 } : x));
+      setCartItems(cartItems.map(x => x._id === producto._id ? { ...exist, cantidad: exist.cantidad - 1 } : x));
     }
   };
 
@@ -37,7 +40,24 @@ const AddVenta = () => {
     })
   }, []);
 
+  const GuardarDatos = () => {
+    const today = new Date();
+    const month = today.getMonth() + 1;
+    const year = today.getFullYear();
+    const date = today.getDate();
+    const fecha = `${date}/${month}/${year}`;
+    var parametros = { articulos: cartItems, precio: totalPrecio, fecha: fecha }
+    enviarSolicitud(parametros);
+  }
 
+  const enviarSolicitud = async (parametros) => {
+    await axios.post("http://localhost:5555/ventas", parametros).then((respuesta) => {
+      if (respuesta.status == 201) {
+        alert("Venta registrada correctamente")
+      }
+      navigate("/clientes")
+    })
+  }
 
   return (
     <div>
@@ -110,17 +130,17 @@ const AddVenta = () => {
         </div>
         {/* /.content-header */}
         <div className="content.ac">
-          <div className="row" style={{ justifyContent: "space-around", marginTop: "20px" , paddingBottom:"10%"}}>
-            <div className='col-6' style={{ background: "white", padding:"1em"}}>
-              <h3 style={{ color: "black"}}>Articulos</h3>
+          <div className="row" style={{ justifyContent: "space-around", marginTop: "20px", paddingBottom: "10%" }}>
+            <div className='col-6' style={{ background: "white", padding: "1em" }}>
+              <h3 style={{ color: "black" }}>Articulos</h3>
               {productos.map((producto) => (
                 <li style={{ alignItems: "center" }}>{producto.nombre} || Precio: ${producto.precio}
-                  <button onClick={()=> onAdd(producto)}>Añadir al carro</button>
+                  <button onClick={() => onAdd(producto)}>Añadir al carro</button>
                 </li>
               ))}
             </div>
-            <div className='col-5' style={{ background: "white", padding:"1em"}}>
-            <h3 style={{ color: "black", marginTop: "0.2em" }}>Carrito</h3>
+            <div className='col-5' style={{ background: "white", padding: "1em" }}>
+              <h3 style={{ color: "black", marginTop: "0.2em" }}>Carrito</h3>
               {cartItems.length === 0 && <div>No se han seleccionado productos</div>}
               {cartItems.map((item) => (
                 <div key={item._id} className='row' >
@@ -130,13 +150,13 @@ const AddVenta = () => {
                     <button className='botonMenos' onClick={() => onRemove(item)}>-</button>
                   </div>
                   <div className='col-3 text-right'>
-                    {item.qty} x ${item.precio.toFixed(2)}
+                    {item.cantidad} x ${item.precio.toFixed(2)}
                   </div>
                 </div>
               ))}
               {cartItems.length !== 0 && (
                 <>
-                  <hr/>
+                  <hr />
                   <div className='row'>
                     <div className='col-6'>Precio:</div>
                     <div className='col-6 text-right'>${itemsPrecio.toFixed(2)}</div>
@@ -149,9 +169,9 @@ const AddVenta = () => {
                     <div className='col-6'><strong>Total a pagar:</strong></div>
                     <div className='col-6 text-right'><strong>${totalPrecio.toFixed(2)}</strong></div>
                   </div>
-                  <hr/>
-                  <div className='row' style={{justifyContent:"center"}}>
-                    <button style={{width:"70%"}} onClick={()=>{alert("YAY")}}>Confirmar</button>                
+                  <hr />
+                  <div className='row' style={{ justifyContent: "center" }}>
+                    <button style={{ width: "70%" }} onClick={() => GuardarDatos()}>Confirmar</button>
                   </div>
                 </>
               )}
