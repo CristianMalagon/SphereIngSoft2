@@ -94,7 +94,7 @@ const AddVenta = () => {
                 <h3>Productos Seleccionados:</h3>
                 <ul id="productosSeleccionados" />
               </div>
-              <div id="total">
+              <div id="total" style={{color:"white"}}>
                 {/* Sección para mostrar el total de precios */}
                 <button onclick="calcularTotal()">Calcular Total</button>
                 <p>Total: $<span id="totalPrecio">0.00</span></p>

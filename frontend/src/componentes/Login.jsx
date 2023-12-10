@@ -73,9 +73,6 @@ const Login = () => {
                 {/* /.col */}
               </div>
             </form>
-            <p className="mb-1">
-              <Link to="recuperar">¿Olvide mi contraseña?</Link>
-            </p>
             <p className="mb-0">
               <Link to="registrar" className="text-center">Registrarse</Link>
             </p>

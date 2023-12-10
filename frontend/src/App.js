@@ -10,6 +10,8 @@ import Registro from "./componentes/Registro";
 import Reporte from "./componentes/Reporte";
 import UpdateCliente from "./componentes/UpdateCliente";
 import EditCliente from "./componentes/EditCliente";
+import AddProducto from "./componentes/AddProducto";
+import EditProducto from "./componentes/EditProducto";
 
 const App = () => {
     return(
@@ -24,6 +26,8 @@ const App = () => {
             <Route path="/clientes/venta" element={<AddVenta/>}/>
             <Route path="/cliente/actualizar" element={<UpdateCliente/>}/>
             <Route path="/cliente/editar/:id" element={<EditCliente/>}/>
+            <Route path="/productos/registrar" element={<AddProducto/>}/>
+            <Route path="/productos/editar/:id" element={<EditProducto/>}/>
         </Routes>
     )
 }

@@ -73,13 +73,32 @@ const Reporte = () => {
         </div>
         {/* /.content-header */}
         {/* Main content */}
-        <div className="content">
-          <div style={{background: "white", margin:"20px", padding:"20px"}}>
+        <div className="content" style={{ paddingBottom: "100%" }}>
+          <div style={{ background: "white", margin: "20px", padding: "20px" }}>
             <h1>Reporte del mes actual</h1>
-            <div style={{background: "rgb(131, 28, 28)", height: "4px", margin:"10px"}}/>
-            <br/>
-            <p style={{fontWeight:"bold"}}>Ingresos totales:</p>
-            <p style={{fontWeight:"bold"}}>ventas realizadas:</p>
+            <div style={{ background: "rgb(131, 28, 28)", height: "4px", margin: "10px" }} />
+            <br />
+            <p style={{fontWeight:"bold"}}>Resumen de Ventas Totales:​</p>
+
+            <p>- Ingresos totales de ventas: $75,000​</p>
+
+            <p>- Cantidad total de productos vendidos: 1,500​</p>
+
+            <p>Desglose de Ventas por Producto o Servicio:​</p>
+
+            <p style={{fontWeight:"bold"}}>Clientes:​</p>
+
+            <p>- Nuevos Clientes Adquiridos: 50​</p>
+
+            <p>- Clientes Recurrentes: 200​</p>
+
+            <p>- Valor Promedio de Compra por Cliente: $350​</p>
+
+            <p style={{fontWeight:"bold"}}>Margen de Beneficio:​</p>
+
+            <p>- Costos de Productos Vendidos: $45,000​</p>
+
+            <p>- Margen de Beneficio Bruto: $30,000​</p>
           </div>
         </div>
       </div>

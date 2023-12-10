@@ -86,7 +86,7 @@ const Productos = () => {
         {/* /.content-header */}
         {/* Main content */}
         <div className="content">
-          <table className="table table-striped table-bordered mt-4" style={{background: 'white'}}>
+          <table className="table table-striped table-bordered mt-4" style={{ background: 'white' }}>
             <thead>
               <tr className="table-bordered">
                 <th className='border border-slate-600 rounded-md'>No</th>
@@ -104,10 +104,14 @@ const Productos = () => {
                   <td>{producto.descripcion}</td>
                   <td>{producto.precio}</td>
                   <td>{producto.stock}</td>
+                  <td><Link to={`/productos/editar/${producto._id}`} class="btn btn-primary">Editar</Link></td>
                 </tr>
               ))}
             </tbody>
           </table>
+          <div class="row align-items-center mb-4" style={{marginLeft:"2px", paddingBottom:"100%"}}>
+            <Link to="/productos/registrar" className="btn btn-primary">Agregar producto</Link>
+          </div>
         </div>
       </div>
       {/* /.content-wrapper */}
