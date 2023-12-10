@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
@@ -13,6 +13,16 @@ const UpdateCliente = () => {
       console.log(error);
     })
   }, []);
+
+  const Eliminar = async (id) => {
+    await axios.delete(`http://localhost:5555/clientes/${id}`).then((respuesta) => {
+      if (respuesta.status == 200) {
+        alert("Cliente eliminado correctamente")
+      }
+      window.location.reload();
+    })
+  }
+
   return (
     <div>
       {/* Navbar */}
@@ -84,36 +94,37 @@ const UpdateCliente = () => {
         </div>
         {/* /.content-header */}
         <div className="content.ac">
-          <div className="register-ac">
-            <div className="card card-outline card-primary">
+          <div className="register-ac" style={{paddingBottom:"18%"}}>
+            <div className="card card-outline card-primary" style={{margin:"10px"}}>
               <div className="card-header text-center">
                 <a className="h1"><b>Consultar y actualizar Información</b></a>
               </div>
               <div>
-              <table className="table table-striped table-bordered mt-4" style={{background: 'white'}}>
-            <thead>
-              <tr className="table-bordered">
-                <th className='border border-slate-600 rounded-md'>No</th>
-                <th className='border border-slate-600 rounded-md'>Nombre</th>
-                <th className='border border-slate-600 rounded-md'>Documento</th>
-                <th className='border border-slate-600 rounded-md'>Correo</th>
-                <th className='border border-slate-600 rounded-md'>Telefono</th>
-                <th className='border border-slate-600 rounded-md'></th>
-              </tr>
-            </thead>
-            <tbody className='table-group-divider'>
-              {clientes.map((cliente, i) => (
-                <tr className="table-bordered">
-                  <td>{i + 1}</td>
-                  <td>{cliente.nombre}</td>
-                  <td>{cliente.documento}</td>
-                  <td>{cliente.correo}</td>
-                  <td>{cliente.telefono}</td>
-                  <td><Link to={`/cliente/editar/${cliente._id}`} class="btn btn-primary">Editar</Link></td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                <table className="table table-striped table-bordered mt-4" style={{ background: 'white' }}>
+                  <thead>
+                    <tr className="table-bordered">
+                      <th className='border border-slate-600 rounded-md'>No</th>
+                      <th className='border border-slate-600 rounded-md'>Nombre</th>
+                      <th className='border border-slate-600 rounded-md'>Documento</th>
+                      <th className='border border-slate-600 rounded-md'>Correo</th>
+                      <th className='border border-slate-600 rounded-md'>Telefono</th>
+                      <th className='border border-slate-600 rounded-md'></th>
+                    </tr>
+                  </thead>
+                  <tbody className='table-group-divider'>
+                    {clientes.map((cliente, i) => (
+                      <tr className="table-bordered">
+                        <td>{i + 1}</td>
+                        <td>{cliente.nombre}</td>
+                        <td>{cliente.documento}</td>
+                        <td>{cliente.correo}</td>
+                        <td>{cliente.telefono}</td>
+                        <td><Link to={`/cliente/editar/${cliente._id}`} class="btn btn-primary">Editar</Link></td>
+                        <td><button onClick={() => { Eliminar(cliente._id) }} class="btn btn-danger">Eliminar</button></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
               </div>
             </div>
           </div>

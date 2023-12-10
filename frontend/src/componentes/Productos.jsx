@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 const Productos = () => {
   const [productos, setProductos] = useState([]);
 
+
   useEffect(() => {
     axios.get('http://localhost:5555/productos').then((response) => {
       setProductos(response.data);
@@ -13,6 +14,15 @@ const Productos = () => {
       console.log(error);
     })
   }, []);
+
+  const Eliminar = async (id) => {
+    await axios.delete(`http://localhost:5555/productos/${id}`).then((respuesta) => {
+      if (respuesta.status == 200) {
+        alert("Producto eliminado correctamente")
+      }
+      window.location.reload();
+    })
+  }
 
   return (
     <div className="hold-transition sidebar-mini">
@@ -105,6 +115,7 @@ const Productos = () => {
                   <td>{producto.precio}</td>
                   <td>{producto.stock}</td>
                   <td><Link to={`/productos/editar/${producto._id}`} class="btn btn-primary">Editar</Link></td>
+                  <td><button onClick={()=>{Eliminar(producto._id)}}  class="btn btn-danger">Eliminar</button></td>
                 </tr>
               ))}
             </tbody>

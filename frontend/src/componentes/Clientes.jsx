@@ -73,7 +73,7 @@ const Clientes = () => {
           </div>{/* /.container-fluid */}
         </div>
         {/* /.content-header */}
-        <div style={{justifyContent:"center", marginLeft:"13%", paddingBottom:"100%"}}>
+        <div style={{justifyContent:"center", marginLeft:"13%", paddingBottom:"15%"}}>
           <Link to="/clientes/registrar"><img className="tamaño" src="img/registrar.png" /></Link>
           <Link to="/cliente/actualizar"><img className="tamaño" src="img/consultar.png" /></Link>
           <Link to="/clientes/venta"><img className="tamaño" src="img/venta.png" /></Link>

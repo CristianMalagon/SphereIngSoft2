@@ -147,7 +147,7 @@ const AddVenta = () => {
                   <div className='col-6'>{item.nombre}</div>
                   <div className='col-3'>
                     <button className='botonMas' onClick={() => onAdd(item)}>+</button>
-                    <button className='botonMenos' onClick={() => onRemove(item)}>-</button>
+                    <button className='botonMenos btn-danger' onClick={() => onRemove(item)}>-</button>
                   </div>
                   <div className='col-3 text-right'>
                     {item.cantidad} x ${item.precio.toFixed(2)}
