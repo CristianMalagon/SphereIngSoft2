@@ -129,7 +129,7 @@ const Reporte = () => {
 
             <p>- Ventas realizadas: {numVentas} ​</p>
 
-            <p>- Promedio de ingresos por venta: ${ingresos/numVentas}​</p>
+            <p>- Promedio de ingresos por venta: ${(ingresos/numVentas).toFixed(2)}​</p>
 
             <p>- Productos vendidos: {vendidos}​</p>
 
